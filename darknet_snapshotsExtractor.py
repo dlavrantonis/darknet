@@ -13,9 +13,9 @@ def parser():
     parser = argparse.ArgumentParser(description="YOLO Object Detection")
     # parser.add_argument("--input", type=str, default='/mnt/FTP/DimKiposFraxtis',
     #                     help="video source. If empty, uses webcam 0 stream")
-    parser.add_argument("--input", type=str, default='/mnt/FalseDetectionsPolemi/11/',
+    parser.add_argument("--input", type=str, default='/mnt/FalseDetectionsPolemi/14/',
                         help="video source. If empty, uses webcam 0 stream")
-    # parser.add_argument("--input", type=str, default='/mnt/FalseDetectionsKalamatas/7/',
+    # parser.add_argument("--input", type=str, default='/mnt/FalseDetectionsKalamatas/9/',
     #                     help="video source. If empty, uses webcam 0 stream")
     parser.add_argument("--out_filename", type=str, default="",
                         help="inference video name. Not saved if empty")
@@ -54,16 +54,30 @@ def parser():
     # parser.add_argument("--data_file", default="./data/objPolemi.data", help="path to data file")
 
     #kalamatas
-    parser.add_argument("--weights", default="/home/dionisis/PycharmProjects/Guard/model/yolov4-tiny-obj_final.weights", help="yolo weights path")
-    parser.add_argument("--config_file", default="/home/dionisis/PycharmProjects/Guard/model/yolov4-tiny-objI.cfg",help="path to config file")
-    parser.add_argument("--data_file", default="/home/dionisis/PycharmProjects/Guard/model/obj.data", help="path to data file")
+    # parser.add_argument("--weights", default="./backupPolemi/yolov4-tiny-objA_final.weights", help="yolo weights path")
+    # parser.add_argument("--config_file", default="./cfgden/yolov4-tiny-objI.cfg",help="path to config file")
+    # parser.add_argument("--data_file", default="./data/objKalamatas.data", help="path to data file")
+
+
+    #Combined+CrowdHuman
+    # parser.add_argument("--weights", default="./backup/yolov4-tiny-obj_final.weights", help="yolo weights path")
+    # parser.add_argument("--config_file", default="./cfgden/yolov4-tiny-objI.cfg",help="path to config file")
+    # parser.add_argument("--data_file", default="./data/objCombinedCrowdHuman.data", help="path to data file")
+
+
+    #Combined
+    parser.add_argument("--weights", default="./backupCombined/yolov4-tiny-objA_final.weights", help="yolo weights path")
+    parser.add_argument("--config_file", default="./cfgden/yolov4-tiny-objI.cfg",help="path to config file")
+    parser.add_argument("--data_file", default="./data/objCombined.data", help="path to data file")
 
     parser.add_argument("--thresh", type=float, default=.50,
                         help="remove detections with confidence below this value")
 
     parser.add_argument("--save_snapshots", type=bool, default=True,
-                        help="folder to put the snapshots")
-    parser.add_argument("--output_folder", type=str, default='/mnt/FalseDetectionsPolemi/11/dataset/',
+                        help="save the snapshots")
+    # parser.add_argument("--output_folder", type=str, default='/mnt/FalseDetectionsKalamatas/9/dataset/',
+    #                     help="folder to put the snapshots")
+    parser.add_argument("--output_folder", type=str, default='/mnt/FalseDetectionsPolemi/14/dataset/',
                         help="folder to put the snapshots")
     return parser.parse_args()
 
@@ -168,7 +182,7 @@ if __name__ == '__main__':
                 if filetype in file:
                     files.append(os.path.join(r, file))
 
-    frn = 603
+    frn = 0
 
     bOnce = True
     for file in files:
@@ -179,9 +193,9 @@ if __name__ == '__main__':
             if not ret:
                 break
             frn += 1
-            # if save_snapshots:
-            #     if frn % 7 !=0:
-            #         continue
+            if save_snapshots:
+                if frn % 15 !=0:
+                    continue
             #frame = frame[2:717,46:690]#[0:720,438:940] #frame = frame[y1:y2, x1:x2]
             video_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
             video_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
